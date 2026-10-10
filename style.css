@@ -762,3 +762,20 @@ footer {
   padding: 10px 4px;
   font-size: 14px;
 }
+
+
+#diaryForm {
+  width: 100%;
+  align-items: center;
+}
+
+#diaryForm label,
+#diaryForm button {
+  width: 100%;
+}
+
+#diaryDate {
+  width: 100%;
+  margin-inline: auto;
+}
+
