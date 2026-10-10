@@ -416,12 +416,13 @@ function saveStudySession() {
 
   data.studySessions ||= [];
   data.studySessions.push({
-    id: makeId(),
-    date: todayKey(),
-    subject: $('studySubject').value,
-    seconds,
-    createdAt: new Date().toISOString()
-  });
+  id: makeId(),
+  date: todayKey(),
+  subject: $('studySubject').value,
+  mode: $('studyMode').value,
+  seconds,
+  createdAt: new Date().toISOString()
+});
 
   save();
   studyElapsed = 0;
