@@ -765,3 +765,16 @@ footer {
   padding: 10px 4px;
 }
 
+
+
+input[type="date"],
+input[type="datetime-local"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px 13px;
+  font: inherit;
+}
+
