@@ -738,8 +738,22 @@ footer {
 }
 
 
-/* 日付欄のはみ出し修正 */
-#diary input[type="date"] {
+/* 日々の記録フォームの幅を修正 */
+#diaryForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+#diaryForm label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
+#diaryDate {
   display: block;
   width: 100%;
   min-width: 0;
@@ -747,17 +761,4 @@ footer {
   box-sizing: border-box;
   padding: 10px 4px;
   font-size: 14px;
-  -webkit-appearance: none;
-  appearance: none;
 }
-
-#diary form,
-#diary form label {
-  min-width: 0;
-  max-width: 100%;
-}
-
-#diary form label {
-  overflow: hidden;
-}
-
