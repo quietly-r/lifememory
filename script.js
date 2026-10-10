@@ -457,7 +457,10 @@ function renderStudy() {
   $('studyHistory').innerHTML = sessions.length
     ? [...sessions].reverse().map(s =>
         `<div class="study-entry">
-          <div>${esc(s.date)}　♡ ${esc(s.subject)}</div>
+          <div>
+  ${esc(s.date)}　♡ ${esc(s.subject)}
+  <span>${esc(s.mode || '通常')}</span>
+</div>
           <div>${Math.floor(s.seconds / 60)}分 ${s.seconds % 60}秒</div>
           <button class="delete" data-study-delete="${esc(s.id)}">×</button>
         </div>`).join('')
