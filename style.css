@@ -512,3 +512,115 @@ h2 {
   }
 }
 
+
+/* 全体をピクセルフォントに統一 */
+:root {
+  --ink: #98647f;
+  --sub: #bd99b0;
+  --pink: #f4b6d2;
+  --deep-pink: #e994bb;
+  --lavender: #e9dfff;
+  --bg: #fff5fa;
+  --line: #f6dfeb;
+}
+
+body, button, input, textarea, select,
+h1, h2, .logo, .nav, .muted, footer {
+  font-family: "DotGothic16", monospace !important;
+  letter-spacing: 0;
+}
+
+h1 { font-size: 23px; line-height: 1.8; }
+h2 { font-size: 14px; line-height: 1.8; }
+
+.card {
+  border-radius: 8px;
+  border: 2px solid #f4dce8;
+  box-shadow: 3px 3px 0 #edc7dc55;
+  backdrop-filter: none;
+}
+
+.nav, .primary, .secondary, .add-button, .filter {
+  border-radius: 5px;
+}
+
+input, textarea, select {
+  border-radius: 4px;
+  border: 2px solid #f4dce8;
+}
+
+.progress {
+  border-radius: 2px;
+}
+
+.progress span {
+  border-radius: 0;
+}
+
+.study-timer {
+  background: linear-gradient(145deg, #fffafd, #fff0f7);
+  text-align: center;
+}
+
+.study-timer label {
+  text-align: left;
+}
+
+.study-timer h2 {
+  color: #d38eb3;
+  letter-spacing: 2px;
+}
+
+.timer-display {
+  margin: 22px 0 5px;
+  font-size: clamp(30px, 7vw, 52px);
+  color: #b66e99;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timer-status {
+  color: #d49abb;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+
+.timer-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.study-total {
+  margin-top: 12px;
+  font-size: 28px;
+  color: #bd78a0;
+}
+
+.study-subject-totals {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.study-subject-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px;
+  background: #fff3f9;
+  border: 1px solid #f6dfeb;
+}
+
+.study-entry {
+  padding: 12px 0;
+  border-bottom: 1px dashed #efccdf;
+}
+
+@media (max-width: 760px) {
+  .timer-display { font-size: 32px; }
+  .timer-buttons button { flex: 1; }
+}
+
+
