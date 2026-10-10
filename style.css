@@ -744,24 +744,24 @@ footer {
   margin-inline: auto;
 }
 
+
 #diaryForm {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 15px;
 }
 
 #diaryForm label {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
 }
 
-#diaryForm input[type="date"] {
-  display: block;
+#diaryDate {
   width: 100%;
-  margin: 0 auto;
-  padding: 10px;
+  min-width: 0;
+  max-width: 100%;
   box-sizing: border-box;
+  padding: 10px 4px;
 }
 
