@@ -5,7 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff3f8">
-<title>my room ♡</title>
+<title>my room</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,6 +27,7 @@
     <button class="nav active" data-page="home">⌂ <span>ホーム</span></button>
     <button class="nav" data-page="tasks">☑ <span>タスク</span></button>
     <button class="nav" data-page="habits">↻ <span>習慣</span></button>
+    <button class="nav" data-page="study">▣ <span>勉強記録</span></button>
     <button class="nav" data-page="diary">✎ <span>日々の記録</span></button>
     <button class="nav" data-page="profile">♡ <span>プロフィール</span></button>
   </nav>
@@ -141,6 +147,55 @@
       <div id="habitList" class="list"></div>
     </article>
   </section>
+  
+  
+  <section id="study" class="page">
+  <div class="page-title">
+    <h1>勉強記録 ▣</h1>
+  </div>
+
+  <article class="card panel study-timer">
+    <h2>STUDY TIMER</h2>
+
+    <label>科目
+      <select id="studySubject">
+        <option>数学</option>
+        <option>英語</option>
+        <option>国語</option>
+        <option>物理</option>
+        <option>化学</option>
+        <option>生物</option>
+        <option>地理・歴史</option>
+        <option>情報</option>
+        <option>その他</option>
+      </select>
+    </label>
+
+    <div id="timerDisplay" class="timer-display">00:00:00</div>
+    <div id="timerStatus" class="timer-status">READY ♡</div>
+
+    <div class="timer-buttons">
+      <button class="primary" id="timerStart">START</button>
+      <button class="secondary" id="timerPause">PAUSE</button>
+      <button class="secondary" id="timerReset">RESET</button>
+    </div>
+
+    <button class="add-button" id="timerSave">勉強記録を保存 ♡</button>
+    <p class="muted">保存すると科目と勉強時間が記録されます。</p>
+  </article>
+
+  <article class="card panel">
+    <h2>今日の勉強時間</h2>
+    <div id="studyTodayTotal" class="study-total">0分</div>
+    <div id="studySubjectTotals" class="study-subject-totals"></div>
+  </article>
+
+  <article class="card panel">
+    <h2>勉強履歴</h2>
+    <div id="studyHistory"></div>
+  </article>
+</section>
+
 
   <section id="diary" class="page">
     <div class="page-title">
