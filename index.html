@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff3f8">
+<title>my room ♡</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sparkles">✧ ˚ · .　♡　. · ˚ ✧</div>
+
+<aside class="sidebar">
+  <a href="#" class="logo" data-page="home">
+    <span class="logo-cloud">☁</span>
+    <span>my room <i>♡</i></span>
+  </a>
+  <p class="side-caption">すきなものと、<br>わたしの毎日。</p>
+
+  <nav>
+    <button class="nav active" data-page="home">⌂ <span>ホーム</span></button>
+    <button class="nav" data-page="tasks">☑ <span>タスク</span></button>
+    <button class="nav" data-page="habits">↻ <span>習慣</span></button>
+    <button class="nav" data-page="diary">✎ <span>日々の記録</span></button>
+    <button class="nav" data-page="profile">♡ <span>プロフィール</span></button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="bunny">૮꒰ ˶• ༝ •˶꒱ა</div>
+    <p>今日も自分のペースで！</p>
+    <small>made for myself ♡</small>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div id="today"></div>
+    <span>୨୧　⋆｡˚ ☁︎ ˚｡⋆　୨୧</span>
+  </header>
+
+  <section id="home" class="page active">
+    <div class="welcome">
+      <span class="eyebrow">WELCOME TO MY LITTLE WORLD</span>
+      <h1>おかえりなさい！ <span>♡</span></h1>
+      <p>今日もあなたのペースで、ゆっくりいこうね。</p>
+    </div>
+
+    <div class="stats">
+      <article class="card stat stat-pink">
+        <span class="stat-icon">♡</span>
+        <div class="muted">今日のタスク</div>
+        <strong id="taskCount">0/0</strong>
+        <div class="progress"><span id="taskProgress"></span></div>
+      </article>
+      <article class="card stat stat-purple">
+        <span class="stat-icon">✧</span>
+        <div class="muted">今日の習慣</div>
+        <strong id="habitCount">0/0</strong>
+        <div class="progress"><span id="habitProgress"></span></div>
+      </article>
+      <article class="card stat stat-cream">
+        <span class="stat-icon">☻</span>
+        <div class="muted">今日の気分</div>
+        <strong id="moodSummary">未記録</strong>
+        <button class="text-button" data-go="diary">記録する →</button>
+      </article>
+    </div>
+
+    <article class="card message">
+      <div class="section-heading"><span>✧</span><h2>今日のひとこと</h2></div>
+      <p>がんばることも大事だけど、<br>
+      ちゃんと休むことも、もっと大事だよ。 ♡</p>
+      <span class="message-decoration">☁︎　♡　✧</span>
+    </article>
+
+    <article class="card panel">
+      <div class="section-heading">
+        <span>♡</span><h2>今日のタスク</h2>
+        <button class="text-button push" data-go="tasks">すべて見る →</button>
+      </div>
+      <div id="homeTasks" class="list"></div>
+      <button class="add-button" data-go="tasks">＋ タスクを追加</button>
+    </article>
+
+    <div class="bottom-grid">
+      <article class="card panel">
+        <div class="section-heading"><span>✎</span><h2>最近の記録</h2></div>
+        <div id="recentDiaries"></div>
+        <button class="text-button" data-go="diary">記録を書く →</button>
+      </article>
+      <article class="card panel">
+        <div class="section-heading"><span>☁</span><h2>今日の習慣</h2></div>
+        <div id="homeHabits"></div>
+        <button class="text-button" data-go="habits">習慣を管理 →</button>
+      </article>
+    </div>
+  </section>
+
+  <section id="tasks" class="page">
+    <div class="page-title">
+      <span class="eyebrow">LITTLE STEPS</span>
+      <h1>タスク管理 ♡</h1>
+      <p>ひとつずつ、できることから。</p>
+    </div>
+    <article class="card panel">
+      <h2>＋ 新しいタスク</h2>
+      <form id="taskForm">
+        <label>やること<input id="taskInput" placeholder="例：英単語を10個覚える" required></label>
+        <label>日付<input id="taskDate" type="date" required></label>
+        <button class="primary" type="submit">追加する ♡</button>
+      </form>
+    </article>
+    <article class="card panel">
+      <h2>タスク一覧</h2>
+      <div class="filters">
+        <button class="filter active" data-filter="today">今日</button>
+        <button class="filter" data-filter="all">すべて</button>
+        <button class="filter" data-filter="done">完了済み</button>
+      </div>
+      <div id="taskList" class="list"></div>
+    </article>
+  </section>
+
+  <section id="habits" class="page">
+    <div class="page-title">
+      <span class="eyebrow">MY LITTLE ROUTINE</span>
+      <h1>習慣管理 ✧</h1>
+      <p>昨日できなくても、今日からまた。</p>
+    </div>
+    <article class="card panel">
+      <h2>続けたいこと</h2>
+      <form id="habitForm">
+        <label>習慣の名前<input id="habitInput" placeholder="例：水を飲む" required></label>
+        <button class="primary" type="submit">＋ 習慣を追加</button>
+      </form>
+    </article>
+    <article class="card panel">
+      <h2>今日のチェックリスト</h2>
+      <p class="muted" id="habitDate"></p>
+      <div id="habitList" class="list"></div>
+    </article>
+  </section>
+
+  <section id="diary" class="page">
+    <div class="page-title">
+      <span class="eyebrow">DEAR MYSELF</span>
+      <h1>日々の記録 ✎</h1>
+      <p>なんでもない日も、残しておこう。</p>
+    </div>
+    <article class="card panel">
+      <form id="diaryForm">
+        <label>日付<input type="date" id="diaryDate" required></label>
+        <label>今日の気分
+          <select id="mood">
+            <option value="">選んでね</option>
+            <option>最高！</option><option>楽しい</option>
+            <option>普通</option><option>疲れた</option><option>しんどい</option>
+          </select>
+        </label>
+        <label>今日のできごと<textarea id="diaryText" placeholder="何があった？何を考えた？"></textarea></label>
+        <label>できたこと<textarea id="diaryAchievement" placeholder="小さなことでも書いてみよう"></textarea></label>
+        <button class="primary" type="submit">記録を保存する ♡</button>
+      </form>
+    </article>
+    <article class="card panel">
+      <h2>過去の記録</h2>
+      <div id="diaryList"></div>
+    </article>
+  </section>
+
+  <section id="profile" class="page">
+    <div class="page-title">
+      <span class="eyebrow">THIS IS ME</span>
+      <h1>プロフィール ♡</h1>
+      <p>わたしの好きなもの、これからのこと。</p>
+    </div>
+    <article class="card panel">
+      <form id="profileForm">
+        <label>ニックネーム<input id="nickname" placeholder="好きな名前"></label>
+        <label>誕生日<input id="birthday" type="date"></label>
+        <label>好きなもの<textarea id="interests" placeholder="趣味・音楽・好きなこと"></textarea></label>
+        <label>目標<textarea id="goals" placeholder="やってみたいこと"></textarea></label>
+        <label>自由メモ<textarea id="profileMemo" placeholder="なんでも！"></textarea></label>
+        <button class="primary" type="submit">プロフィールを保存 ♡</button>
+      </form>
+    </article>
+    <article class="card panel">
+      <h2>データのお引っ越し</h2>
+      <p class="muted">記録のバックアップと復元ができます。</p>
+      <button class="secondary" id="exportButton">↓ バックアップを保存</button>
+      <label>バックアップファイル<input id="importFile" type="file" accept=".json,application/json"></label>
+      <button class="secondary" id="importButton">↑ データを復元</button>
+    </article>
+  </section>
+
+  <footer>✧ my room ♡ a little world just for me ✧</footer>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
