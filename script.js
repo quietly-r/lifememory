@@ -7,7 +7,12 @@ const todayKey = () => {
 };
 
 const freshData = () => ({
-  tasks: [], habits: [], checks: {}, diaries: {}, profile: {}
+  tasks: [],
+  habits: [],
+  checks: {},
+  diaries: {},
+  profile: {},
+  studySessions: []
 });
 
 let data = freshData();
@@ -350,3 +355,138 @@ $('diaryAchievement').value = initialDiary.achievement || '';
 renderTasks();
 renderHabits();
 renderDiaries();
+
+
+let studyElapsed = 0;
+let studyStartedAt = null;
+let studyInterval = null;
+
+function formatTime(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  return [h, m, s].map(v => String(v).padStart(2, '0')).join(':');
+}
+
+function currentElapsed() {
+  return studyElapsed + (studyStartedAt === null
+    ? 0
+    : Math.floor((Date.now() - studyStartedAt) / 1000));
+}
+
+function updateTimer() {
+  $('timerDisplay').textContent = formatTime(currentElapsed());
+}
+
+function startTimer() {
+  if (studyStartedAt !== null) return;
+
+  studyStartedAt = Date.now();
+  $('timerStatus').textContent = 'STUDYING... ♡';
+  studyInterval = setInterval(updateTimer, 250);
+  updateTimer();
+}
+
+function pauseTimer() {
+  if (studyStartedAt === null) return;
+
+  studyElapsed = currentElapsed();
+  studyStartedAt = null;
+  clearInterval(studyInterval);
+  studyInterval = null;
+  $('timerStatus').textContent = 'PAUSED';
+  updateTimer();
+}
+
+function resetTimer() {
+  pauseTimer();
+  studyElapsed = 0;
+  $('timerStatus').textContent = 'READY ♡';
+  updateTimer();
+}
+
+function saveStudySession() {
+  pauseTimer();
+
+  const seconds = studyElapsed;
+  if (seconds < 1) {
+    alert('先にタイマーを動かしてください！');
+    return;
+  }
+
+  data.studySessions ||= [];
+  data.studySessions.push({
+    id: makeId(),
+    date: todayKey(),
+    subject: $('studySubject').value,
+    seconds,
+    createdAt: new Date().toISOString()
+  });
+
+  save();
+  studyElapsed = 0;
+  $('timerStatus').textContent = 'SAVED ♡';
+  updateTimer();
+  renderStudy();
+  alert('勉強記録を保存しました！');
+}
+
+function renderStudy() {
+  const sessions = data.studySessions || [];
+  const today = sessions.filter(s => s.date === todayKey());
+  const total = today.reduce((sum, s) => sum + s.seconds, 0);
+
+  $('studyTodayTotal').textContent =
+    `${Math.floor(total / 60)}分`;
+
+  const subjects = {};
+  today.forEach(s => {
+    subjects[s.subject] = (subjects[s.subject] || 0) + s.seconds;
+  });
+
+  $('studySubjectTotals').innerHTML =
+    Object.entries(subjects).length
+      ? Object.entries(subjects).map(([subject, seconds]) =>
+          `<div class="study-subject-row">
+            <span>${esc(subject)}</span>
+            <span>${Math.floor(seconds / 60)}分</span>
+          </div>`).join('')
+      : '<div class="empty">今日の記録はまだありません ♡</div>';
+
+  $('studyHistory').innerHTML = sessions.length
+    ? [...sessions].reverse().map(s =>
+        `<div class="study-entry">
+          <div>${esc(s.date)}　♡ ${esc(s.subject)}</div>
+          <div>${Math.floor(s.seconds / 60)}分 ${s.seconds % 60}秒</div>
+          <button class="delete" data-study-delete="${esc(s.id)}">×</button>
+        </div>`).join('')
+    : '<div class="empty">勉強した時間がここに残ります ♡</div>';
+}
+
+$('timerStart').addEventListener('click', startTimer);
+$('timerPause').addEventListener('click', pauseTimer);
+$('timerReset').addEventListener('click', resetTimer);
+$('timerSave').addEventListener('click', saveStudySession);
+
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-study-delete]');
+  if (!button) return;
+
+  data.studySessions = (data.studySessions || [])
+    .filter(s => s.id !== button.dataset.studyDelete);
+
+  save();
+  renderStudy();
+});
+
+const previousRender = typeof render === 'function' ? render : null;
+function render() {
+  renderTasks();
+  renderHabits();
+  renderDiaries();
+  renderStudy();
+}
+
+updateTimer();
+renderStudy();
+
