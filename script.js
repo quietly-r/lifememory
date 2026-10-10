@@ -490,3 +490,26 @@ function render() {
 updateTimer();
 renderStudy();
 
+
+// 今日のメモ
+function loadHomeMemo() {
+  const memos = JSON.parse(
+    localStorage.getItem('myRoomMemos') || '{}'
+  );
+  $('homeMemoText').value = memos[todayKey()] || '';
+}
+
+function saveHomeMemo() {
+  const memos = JSON.parse(
+    localStorage.getItem('myRoomMemos') || '{}'
+  );
+
+  memos[todayKey()] = $('homeMemoText').value;
+  localStorage.setItem('myRoomMemos', JSON.stringify(memos));
+
+  $('homeMemoStatus').textContent = '保存しました ♡';
+}
+
+$('saveHomeMemo').addEventListener('click', saveHomeMemo);
+loadHomeMemo();
+
