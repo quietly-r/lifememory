@@ -736,3 +736,28 @@ footer {
     grid-column: span 2;
   }
 }
+
+
+/* 日付欄のはみ出し修正 */
+#diary input[type="date"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 10px 4px;
+  font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#diary form,
+#diary form label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#diary form label {
+  overflow: hidden;
+}
+
