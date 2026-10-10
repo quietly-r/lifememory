@@ -624,3 +624,43 @@ input, textarea, select {
 }
 
 
+/* はみ出し防止 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.page,
+.panel,
+.glass,
+.diary-entry {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.panel {
+  overflow-wrap: anywhere;
+}
+
+.panel input:not([type="checkbox"]),
+.panel textarea,
+.panel select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.panel textarea {
+  resize: vertical;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.diary-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
