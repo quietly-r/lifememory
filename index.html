@@ -114,11 +114,20 @@
     </div>
     <article class="card panel">
       <h2>＋ 新しいタスク</h2>
-      <form id="taskForm">
-        <label>やること<input id="taskInput" placeholder="例：英単語を10個覚える" required></label>
-        <label>日付<input id="taskDate" type="date" required></label>
-        <button class="primary" type="submit">追加する ♡</button>
-      </form>
+     <form id="taskForm">
+  <label>
+    タスク名
+    <input id="taskInput" type="text" required
+      placeholder="例：数学の課題">
+  </label>
+
+  <label>
+    締切日時（任意）
+    <input id="taskDate" type="datetime-local">
+  </label>
+
+  <button class="primary" type="submit">タスクを追加 ♡</button>
+</form>
     </article>
     <article class="card panel">
       <h2>タスク一覧</h2>
