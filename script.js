@@ -68,19 +68,25 @@ document.querySelectorAll('[data-go]').forEach(button => {
   button.addEventListener('click', () => showPage(button.dataset.go));
 });
 
+
 function addTask(event) {
   event.preventDefault();
+
   const name = $('taskInput').value.trim();
   if (!name) return;
+
   data.tasks.push({
-    id: makeId(), name,
-    date: $('taskDate').value || todayKey(),
+    id: makeId(),
+    name,
+    date: $('taskDate').value || '',
     done: false
   });
+
   $('taskInput').value = '';
   save();
   render();
 }
+
 
 function toggleTask(id) {
   const task = data.tasks.find(item => item.id === id);
@@ -144,28 +150,111 @@ function habitHTML(habit, checked) {
   </div>`;
 }
 
+
 function renderTasks() {
-  const today = data.tasks.filter(task => task.date === todayKey());
-  const completed = today.filter(task => task.done).length;
-  $('taskCount').textContent = `${completed}/${today.length}`;
+  const today = todayKey();
+
+  const shiftDate = (dateKey, days) => {
+    const [y, m, d] = dateKey.split('-').map(Number);
+    const date = new Date(y, m - 1, d);
+    date.setDate(date.getDate() + days);
+
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, '0'),
+      String(date.getDate()).padStart(2, '0')
+    ].join('-');
+  };
+
+  const tomorrow = shiftDate(today, 1);
+  const weekday = new Date(
+    ...today.split('-').map(Number).map((v, i) =>
+      i === 1 ? v - 1 : v
+    )
+  ).getDay();
+  const weekEnd = shiftDate(today, 7 - weekday);
+
+  // 日時締切と、以前の日付だけのデータの両方に対応
+  const getDate = task => task.date ? task.date.slice(0, 10) : '';
+
+  const getTime = task => {
+    if (!task.date || !task.date.includes('T')) return '';
+    return task.date.slice(11, 16);
+  };
+
+  const allTasks = [...data.tasks].sort((a, b) =>
+    (a.date || '9999').localeCompare(b.date || '9999')
+  );
+
+  const todayTasks = allTasks.filter(task => getDate(task) === today);
+  const completed = todayTasks.filter(task => task.done).length;
+
+  $('taskCount').textContent = `${completed}/${todayTasks.length}`;
   $('taskProgress').style.width =
-    `${today.length ? completed / today.length * 100 : 0}%`;
+    `${todayTasks.length ? completed / todayTasks.length * 100 : 0}%`;
 
-  let list = [...data.tasks].sort((a, b) => a.date.localeCompare(b.date));
-  if (taskFilter === 'today') list = list.filter(task => task.date === todayKey());
-  if (taskFilter === 'done') list = list.filter(task => task.done);
+  let list = allTasks;
 
-  $('taskList').innerHTML = list.length
-    ? list.map(task => `<div class="diary-entry">
-        <div class="diary-date">${esc(task.date)}</div>
-        ${taskHTML(task)}
-      </div>`).join('')
-    : '<div class="empty">タスクはまだありません ♡</div>';
+  if (taskFilter === 'today') {
+    list = allTasks.filter(task => getDate(task) === today);
+  } else if (taskFilter === 'done') {
+    list = allTasks.filter(task => task.done);
+  }
 
-  $('homeTasks').innerHTML = today.length
-    ? today.map(taskHTML).join('')
+  const groups = [
+    {
+      title: '今日',
+      tasks: list.filter(task => getDate(task) === today)
+    },
+    {
+      title: '明日',
+      tasks: list.filter(task => getDate(task) === tomorrow)
+    },
+    {
+      title: '今週',
+      tasks: list.filter(task => {
+        const date = getDate(task);
+        return date > tomorrow && date <= weekEnd;
+      })
+    },
+    {
+      title: 'それ以降・締切なし',
+      tasks: list.filter(task => {
+        const date = getDate(task);
+        return !date || date > weekEnd;
+      })
+    },
+    {
+      title: '期限切れ',
+      tasks: list.filter(task => getDate(task) < today && !task.done)
+    }
+  ];
+
+  $('taskList').innerHTML = groups
+    .filter(group => group.tasks.length)
+    .map(group => `
+      <div class="task-group">
+        <h3>${group.title}</h3>
+        ${group.tasks.map(task => `
+          <div class="diary-entry">
+            <div class="diary-date">
+              ${esc(getDate(task) || '締切なし')}
+              ${getTime(task) ? ` ${esc(getTime(task))}` : ''}
+              ${getDate(task) < today && !task.done
+                ? ' ⚠ 期限切れ'
+                : ''}
+            </div>
+            ${taskHTML(task)}
+          </div>
+        `).join('')}
+      </div>
+    `).join('') || '<div class="empty">タスクはまだありません ♡</div>';
+
+  $('homeTasks').innerHTML = todayTasks.length
+    ? todayTasks.map(taskHTML).join('')
     : '<div class="empty">今日はまだタスクがありません ☁</div>';
 }
+
 
 function renderHabits() {
   const checked = data.checks[todayKey()] || [];
